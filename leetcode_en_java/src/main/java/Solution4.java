@@ -3,7 +3,7 @@ public class Solution4 {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         boolean isOdd = (nums1.length + nums2.length) % 2 != 0;
         int stop = (nums1.length + nums2.length) / 2;
-        System.out.println("stop = " + stop);
+        // System.out.println("stop = " + stop);
         int pos = 0;
         int curr = 0;
         int prev = 0;
@@ -12,26 +12,30 @@ public class Solution4 {
 
         while (pos <= stop) {
             prev = curr;
-            if (pos1 >= nums1.length) {
-                // reach end of nums1
-                curr = nums2[pos2];
-                pos2++;
-            } else if (pos2 >= nums2.length) {
-                // reach end of nums2
-                curr = nums1[pos1];
-                pos1++;
-            } else if (nums1[pos1] <= nums2[pos2]) {
-                // normal compare lower number of nums1 and nums2 current element
-                curr = nums1[pos1];
-                pos1++;
+            if (pos1 < nums1.length && pos2 < nums2.length) {
+                if (nums1[pos1] <= nums2[pos2]) {
+                    // normal compare lower number of nums1 and nums2 current element
+                    curr = nums1[pos1];
+                    pos1++;
+                } else {
+                    curr = nums2[pos2];
+                    pos2++;
+                }
             } else {
-                curr = nums2[pos2];
-                pos2++;
+                if (pos1 >= nums1.length) {
+                    // reach end of nums1
+                    curr = nums2[pos2];
+                    pos2++;
+                } else if (pos2 >= nums2.length) {
+                    // reach end of nums2
+                    curr = nums1[pos1];
+                    pos1++;
+                }
             }
 
             pos ++;
 
-            System.out.println(String.format("pos = %s, pos1 = %s, pos2 = %s, curr = %s, prev = %s", pos, pos1, pos2, curr, prev));
+            //System.out.println(String.format("pos = %s, pos1 = %s, pos2 = %s, curr = %s, prev = %s", pos, pos1, pos2, curr, prev));
         }
 
         return isOdd? curr: (double) (curr + prev) / 2;
